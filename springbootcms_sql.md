@@ -1,11 +1,11 @@
 # The name of an affected Product.
-Springboot version of JFinalcms or SpringbootCMS
+SpringbootCMS
 # The affected or fixed version(s).
 SpringbootCMS 1.0
 # The CVE ID for the entry
 CVE-2023-43192
 # A prose description
-SQL injection can exist ina newly created part of the JFinalcms background, and the parameters submitted by users are not filtered. As a result, special characters in parameters destroy the original logic of SQL statements. Attackers can use this vulnerability to execute any SQL statement.
+SQL injection can exist ina newly created part of the SpringbootCMS background, and the parameters submitted by users are not filtered. As a result, special characters in parameters destroy the original logic of SQL statements. Attackers can use this vulnerability to execute any SQL statement.
 # Other supplement
 Hole address: http://ip:8888/admin/div_data/save
 The code download address: [https://gitee.com/heyewei/SpringBootCMS.git](https://gitee.com/heyewei/SpringBootCMS.git)
